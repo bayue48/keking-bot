@@ -9,7 +9,8 @@
     "distube": "^2.8.18",
     "dotenv": "^10.0.0",
     "ffmpeg-static": "^4.4.0",
-    "genius-lyrics": "^4.2.9"
+    "genius-lyrics": "^4.2.9",
+    "nodemon": "^2.0.12"
   },
   "devDependencies": {
     "eslint": "^7.32.0"
