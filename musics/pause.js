@@ -9,9 +9,11 @@ module.exports = {
       );
     if (queue.pause) {
       client.distube.resume(message);
-      return message.channel.send("Resumed the song for you :)");
+      return message.channel.send(
+        `${client.emotes.play} | Resumed the song for you :)`
+      );
     }
     client.distube.pause(message);
-    message.channel.send("Paused the song for you :)");
+    message.channel.send(`${client.emotes.pause} | Paused the song for you :)`);
   },
 };
