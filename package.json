@@ -1,0 +1,30 @@
+{
+  "name": "keqing",
+  "version": "1.0.0",
+  "description": "A Discord bot!",
+  "main": "index.js",
+  "dependencies": {
+    "@discordjs/opus": "^0.6.0",
+    "discord.js": "^12.5.3",
+    "distube": "^2.8.18",
+    "dotenv": "^10.0.0",
+    "ffmpeg-static": "^4.4.0",
+    "genius-lyrics": "^4.2.9"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index"
+  },
+  "keywords": [
+    "discord.js",
+    "bot",
+    "music",
+    "music bot",
+    "keqing"
+  ],
+  "author": "fb.me/yae48",
+  "license": "ISC"
+}
