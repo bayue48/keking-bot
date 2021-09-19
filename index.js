@@ -15,7 +15,7 @@ client.distube = new DisTube(client, {
   searchCooldown: 30,
   leaveOnEmpty: false,
   emptyCooldown: 0,
-  leaveOnStop: true,
+  leaveOnStop: false,
 });
 client.aliases = new Discord.Collection();
 client.emotes = emoji;
@@ -80,6 +80,10 @@ const status = (queue) =>
       : "Off"
   }\` | Autoplay: \`${queue.autoplay ? "On" : "Off"}\``;
 client.distube
+  .on("initQueue", (queue) => {
+    queue.autoplay = false;
+    queue.volume = 100;
+  })
   .on("playSong", (message, queue, song) =>
     message.channel.send(
       `${client.emotes.play} | Playing \`${song.name}\` - \`${
@@ -126,6 +130,15 @@ client.distube
   .on("error", (message, err) =>
     message.channel.send(
       `${client.emotes.error} | An error encountered: ${err}`
+    )
+  )
+  .on("empty", (message) =>
+    message.channel.send("Channel is empty. Leaving the channel")
+  )
+  .on("finish", (message) => message.channel.send("No more song in queue"))
+  .on("noRelated", (message) =>
+    message.channel.send(
+      "Can't find related video to play. Stop playing music."
     )
   );
 
