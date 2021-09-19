@@ -80,10 +80,6 @@ const status = (queue) =>
       : "Off"
   }\` | Autoplay: \`${queue.autoplay ? "On" : "Off"}\``;
 client.distube
-  .on("initQueue", (queue) => {
-    queue.autoplay = false;
-    queue.volume = 100;
-  })
   .on("playSong", (message, queue, song) =>
     message.channel.send(
       `${client.emotes.play} | Playing \`${song.name}\` - \`${
