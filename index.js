@@ -12,9 +12,9 @@ client.distube = new DisTube(client, {
   searchSongs: false,
   emitNewSongOnly: true,
   leaveOnFinish: false,
-  searchCooldown: 30,
-  leaveOnEmpty: false,
-  emptyCooldown: 0,
+  // searchCooldown: 30,
+  leaveOnEmpty: true,
+  // emptyCooldown: 0,
   leaveOnStop: false,
 });
 client.aliases = new Discord.Collection();
