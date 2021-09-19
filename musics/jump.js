@@ -21,9 +21,9 @@ module.exports = {
       message.channel.send(
         `${
           client.emotes.error
-        } | Invalid song number. Please use a number between **${
-          queue.songs[0]
-        }** and **${(queue.songs.length - 1)}**`
+        } | Invalid song number. Please use a number between **0** and **${
+          queue.songs.length - 1
+        }**`
       );
     }
     // client.distube
