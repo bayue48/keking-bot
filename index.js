@@ -15,7 +15,7 @@ client.distube = new DisTube(client, {
   // searchCooldown: 30,
   leaveOnEmpty: true,
   // emptyCooldown: 0,
-  leaveOnStop: false,
+  leaveOnStop: true,
 });
 client.aliases = new Discord.Collection();
 client.emotes = emoji;
