@@ -1,5 +1,6 @@
 module.exports = {
   name: "jump",
+  description: "Jump to song from playlist.",
   inVoiceChannel: true,
   async execute(message, args, client) {
     let queue = client.distube.getQueue(message);

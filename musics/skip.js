@@ -1,5 +1,6 @@
 module.exports = {
   name: "skip",
+  description: "Skip a song.",
   inVoiceChannel: true,
   async execute(message, args, client) {
     const queue = client.distube.getQueue(message);

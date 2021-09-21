@@ -1,5 +1,6 @@
 module.exports = {
   name: "autoplay",
+  description: "Toggle autoplay on or off.",
   inVoiceChannel: true,
   async execute(message, args, client) {
     let mode = client.distube.toggleAutoplay(message);

@@ -1,5 +1,6 @@
 module.exports = {
-  name: "repeat",
+  name: "loop",
+  description: "Looping through song or playlist.",
   inVoiceChannel: true,
   async execute(message, args, client) {
     const queue = client.distube.getQueue(message);

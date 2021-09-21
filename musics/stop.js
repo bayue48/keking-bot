@@ -1,5 +1,6 @@
 module.exports = {
   name: "stop",
+  description: "Stop playing and leave channel.",
   inVoiceChannel: true,
   async execute(message, args, client) {
     const queue = client.distube.getQueue(message);

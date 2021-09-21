@@ -1,5 +1,6 @@
 module.exports = {
   name: "filter",
+  description: "Songs filters.",
   inVoiceChannel: true,
   async execute(message, args, client) {
     const queue = client.distube.getQueue(message);

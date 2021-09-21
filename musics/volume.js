@@ -1,5 +1,6 @@
 module.exports = {
   name: "volume",
+  description: "Increase or decrease volume.",
   inVoiceChannel: true,
   async execute(message, args, client) {
     const queue = client.distube.getQueue(message);
