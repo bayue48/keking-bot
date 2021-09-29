@@ -1,5 +1,6 @@
 module.exports = {
   name: "play",
+  aliases: ["p"],
   description: "Play a song.",
   inVoiceChannel: true,
   async execute(message, args, client) {
@@ -12,6 +13,7 @@ module.exports = {
       client.distube.play(message, string);
     } catch (e) {
       message.channel.send(`${client.emotes.error} | Error: \`${e}\``);
+      console.log("Erorr", e);
     }
   },
 };

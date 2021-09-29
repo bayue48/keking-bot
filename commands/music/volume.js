@@ -1,5 +1,6 @@
 module.exports = {
   name: "volume",
+  aliases: ["v"],
   description: "Increase or decrease volume.",
   inVoiceChannel: true,
   async execute(message, args, client) {

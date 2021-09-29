@@ -1,6 +1,6 @@
 module.exports = {
   name: "user",
-  description: "Show a user info",
+  description: "Display info about yourself.",
   execute(message) {
     message.channel.send(
       `Your username: ${message.author.username}\nCreated at: ${

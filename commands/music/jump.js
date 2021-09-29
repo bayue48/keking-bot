@@ -1,5 +1,6 @@
 module.exports = {
   name: "jump",
+  aliases: ["j"],
   description: "Jump to song from playlist.",
   inVoiceChannel: true,
   async execute(message, args, client) {

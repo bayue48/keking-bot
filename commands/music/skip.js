@@ -1,5 +1,6 @@
 module.exports = {
   name: "skip",
+  aliases: ["s"],
   description: "Skip a song.",
   inVoiceChannel: true,
   async execute(message, args, client) {
