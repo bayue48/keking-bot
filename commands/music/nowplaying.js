@@ -2,7 +2,8 @@ const Discord = require("discord.js");
 const bar = require(`stylish-text`);
 
 module.exports = {
-  name: "np",
+  name: "nowplaying",
+  aliases: ["np"],
   description: "Show the currently playing song.",
   inVoiceChannel: true,
   async execute(message, args, client) {

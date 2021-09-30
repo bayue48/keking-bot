@@ -1,6 +1,6 @@
 module.exports = {
   name: "stop",
-  aliases: ["leave"],
+  aliases: ["leave", "bye"],
   description: "Stop playing and leave channel.",
   inVoiceChannel: true,
   async execute(message, args, client) {

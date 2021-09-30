@@ -1,6 +1,6 @@
 module.exports = {
   name: "loop",
-  aliases: ["repeat"],
+  aliases: ["repeat", "l"],
   description: "Looping through song or playlist.",
   inVoiceChannel: true,
   async execute(message, args, client) {

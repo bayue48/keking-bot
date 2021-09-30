@@ -1,5 +1,6 @@
 module.exports = {
   name: "autoplay",
+  aliases: ["ap"],
   description: "Toggle autoplay on or off.",
   inVoiceChannel: true,
   async execute(message, args, client) {

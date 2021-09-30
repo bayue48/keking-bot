@@ -1,5 +1,6 @@
 module.exports = {
   name: "filter",
+  aliases: ["f"],
   description: "Songs filters.",
   inVoiceChannel: true,
   async execute(message, args, client) {
