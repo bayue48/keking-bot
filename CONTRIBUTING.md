@@ -2,14 +2,16 @@
 
 Thank you for considering and taking the time to contribute!💖 This is an experimental project to push newbies and help them take their first step toward open-source world. This will help them to kick-start journey as a Open-Source contributor.
 
-The following are guidelines for contributing to this project.
-
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 ## Project setup
 
-1.  Fork and clone the repo
-2.  Write all about docker
-3.  Push your into your working
-4.  Make PR and don't forget to edit README.md for contributor.
+The following are guidelines for contributing to this project.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 > Tip: Keep your `master` branch pointing at the original repository and make
 > pull requests from branches on your fork. To do this, run:
