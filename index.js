@@ -1,11 +1,15 @@
 require("dotenv").config();
 const fs = require("fs");
-
 const DisTube = require("distube");
 const Discord = require("discord.js");
-const { prefix, emoji } = require("./config.json");
-
+const { prefix, emoji, port } = require("./config.json");
 const client = new Discord.Client();
+const express = require("express");
+const app = express();
+
+app.listen(port, () => {
+  console.log(`Server is running at port ${port}`);
+});
 
 client.commands = new Discord.Collection();
 client.distube = new DisTube(client, {
