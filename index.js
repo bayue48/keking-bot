@@ -13,7 +13,8 @@ app.listen(PORT, () => {
 });
 
 app.get("/", (_, res) => {
-  res.attachment('public/__keqing_genshin_impact_drawn_by_kurotofu__05e1a20f4fe2efb9574e41a9f5e77ff1.png')
+  res.send("Made with love by fb.me/yae48");
+  res.redirect("https://fb.me/kiyoshi48");
 });
 
 client.commands = new Discord.Collection();
