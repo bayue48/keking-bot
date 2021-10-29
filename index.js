@@ -13,8 +13,8 @@ app.listen(PORT, () => {
 });
 
 app.get("/", (_, res) => {
-  res.send("Made with love by fb.me/yae48");
-  res.redirect("https://fb.me/kiyoshi48");
+  // res.send("Made with love by fb.me/yae48");
+  res.redirect("https://fb.me/yae48");
 });
 
 client.commands = new Discord.Collection();
