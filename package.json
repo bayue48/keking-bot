@@ -5,12 +5,12 @@
   "main": "index.js",
   "dependencies": {
     "@discordjs/opus": "^0.6.0",
+    "@j0r6it0/lyricsfinder": "^1.2.1",
     "discord.js": "^12.5.3",
     "distube": "^2.8.18",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "ffmpeg-static": "^4.4.0",
-    "genius-lyrics": "^4.2.9",
     "nodemon": "^2.0.12",
     "stylish-text": "^1.1.3"
   },
