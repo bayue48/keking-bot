@@ -51,7 +51,6 @@ module.exports = {
           .setTitle(name)
           .setURL(link)
           .setDescription(lyrics.trim())
-          .setTimestamp()
           .setColor("#c1abff")
           .setThumbnail(`${tn}`)
           .setFooter(user, avatar)
