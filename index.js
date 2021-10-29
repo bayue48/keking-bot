@@ -12,6 +12,10 @@ app.listen(PORT, () => {
   console.log(`Server is running at port ${PORT}`);
 });
 
+app.get("/", (_, res) => {
+  res.send("Made with love by fb.me/yae48");
+});
+
 client.commands = new Discord.Collection();
 client.distube = new DisTube(client, {
   searchSongs: false,
