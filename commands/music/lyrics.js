@@ -35,7 +35,11 @@ module.exports = {
         geniusToken: `${process.env.API}`,
       });
 
-      if (title === false) return message.channel.send("Lyrics not found");
+      let embed = new MessageEmbed()
+        .setDescription(` ${client.emotes.error} **Lyrics not found**`)
+        .setColor("#c1abff");
+
+      if (title === false) return msg.edit(embed);
 
       const lyrics = title.lyrics;
 
