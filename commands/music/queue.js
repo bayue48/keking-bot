@@ -6,14 +6,16 @@ module.exports = {
   description: "Show a playlist.",
   async execute(message, args, client) {
     const queue = client.distube.getQueue(message);
-    const song = queue.songs[0];
-    const user = song.user.tag;
-    const avatar = song.user.displayAvatarURL({ dynamic: true, format: "png" });
 
     if (!queue)
       return message.channel.send(
         `${client.emotes.error} | There is nothing playing!`
       );
+      
+    const song = queue.songs[0];
+    const user = song.user.tag;
+    const avatar = song.user.displayAvatarURL({ dynamic: true, format: "png" });
+
     const q = queue.songs
       .map(
         (song, i) =>

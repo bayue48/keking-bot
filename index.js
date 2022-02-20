@@ -19,12 +19,10 @@ app.get("/", (_, res) => {
 
 client.commands = new Discord.Collection();
 client.distube = new DisTube(client, {
-  searchSongs: false,
+  searchSongs: true,
   emitNewSongOnly: true,
   leaveOnFinish: false,
-  // searchCooldown: 30,
   leaveOnEmpty: true,
-  // emptyCooldown: 0,
   leaveOnStop: true,
 });
 client.emotes = emoji;
