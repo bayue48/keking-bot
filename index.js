@@ -33,7 +33,7 @@ client.distube = new DisTube(client, {
   emitAddSongWhenCreatingQueue: false,
   emitAddListWhenCreatingQueue: false,
   savePreviousSongs: true,
-  // searchSongs: 5,
+  searchSongs: 5,
   nsfw: true,
   plugins: [
     new SpotifyPlugin({
