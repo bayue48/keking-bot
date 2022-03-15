@@ -96,9 +96,7 @@ const status = queue =>
 client.distube
   .on('playSong', (queue, song) =>
     queue.textChannel.send(
-      `${client.emotes.play} | Playing \`${song.name}\` - \`${song.formattedDuration}\`\nRequested by: ${
-        song.user
-      }\n${status(queue)}`
+      `${client.emotes.play} | Playing \`${song.name}\` - \`${song.formattedDuration}\`\n${status(queue)}`
     )
   )
   .on('addSong', (queue, song) =>
