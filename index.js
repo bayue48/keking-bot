@@ -111,11 +111,11 @@ client.distube
       } songs) to queue\n${status(queue)}`
     )
   )
-  .on('error', (channel, e) => {
-    channel.send(`${client.emotes.error} | An error encountered: ${e.toString().slice(0, 1974)}`);
+  .on('error', (message, e) => {
+    message.channel.send(`${client.emotes.error} | An error encountered: ${e.toString().slice(0, 1974)}`);
     console.error(e);
   })
-  .on('empty', channel => channel.send('Voice channel is empty! Leaving the channel...'))
+  .on('empty', message => message.channel.send('Voice channel is empty! Leaving the channel...'))
   .on('searchNoResult', (message, query) =>
     message.channel.send(`${client.emotes.error} | No result found for \`${query}\`!`)
   )
