@@ -3,6 +3,7 @@
 Thank you for considering and taking the time to contribute!💖 This is an experimental project to push newbies and help them take their first step toward open-source world. This will help them to kick-start journey as a Open-Source contributor.
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
 ## Project setup
 
 The following are guidelines for contributing to this project.
@@ -16,7 +17,7 @@ The following are guidelines for contributing to this project.
 > Tip: Keep your `master` branch pointing at the original repository and make
 > pull requests from branches on your fork. To do this, run:
 >
-> ```
+> ```sh
 > git remote add upstream https://github.com/bayue48/keking-bot
 > git fetch upstream
 > git branch --set-upstream-to=upstream/v2 v2

@@ -21,7 +21,7 @@ module.exports = {
       var time = given;
       var minutes = '0' + Math.floor(time / 60);
       var seconds = '0' + (time - minutes * 60);
-      return minutes.substr(-2) + ':' + seconds.substr(-2);
+      return minutes.substring(-2) + ':' + seconds.substring(-2);
     }
 
     const current = Math.floor(queue.currentTime / 1000);
