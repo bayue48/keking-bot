@@ -19,7 +19,7 @@ The following are guidelines for contributing to this project.
 > ```
 > git remote add upstream https://github.com/bayue48/keking-bot
 > git fetch upstream
-> git branch --set-upstream-to=upstream/master master
+> git branch --set-upstream-to=upstream/v2 v2
 > ```
 >
 > This will add the original repository as a "remote" called "upstream," Then
