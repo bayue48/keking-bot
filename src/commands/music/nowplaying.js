@@ -17,28 +17,28 @@ module.exports = {
     const link = song.url;
     const tn = song.thumbnail;
 
-    function toReadableTime(given) {
-      var time = given;
-      var minutes = '0' + Math.floor(time / 60);
-      var seconds = '0' + (time - minutes * 60);
-      return minutes.substring(-2) + ':' + seconds.substring(-2);
-    }
+    // function toReadableTime(given) {
+    //   var time = given;
+    //   var minutes = '0' + Math.floor(time / 60);
+    //   var seconds = '0' + (time - minutes * 60);
+    //   return minutes.substring(-2) + ':' + seconds.substring(-2);
+    // }
 
-    const current = Math.floor(queue.currentTime / 1000);
-    const end = song.duration;
+    // const current = Math.floor(queue.currentTime / 1000);
+    // const end = song.duration;
 
-    const value = (current * (100 / end)) / 5;
+    // const value = (current * (100 / end)) / 5;
 
-    bar.default.full = '█';
-    bar.default.empty = ' - ';
-    bar.default.start = '';
-    bar.default.end = '';
-    bar.default.text = '{bar}';
+    // bar.default.full = '█';
+    // bar.default.empty = ' - ';
+    // bar.default.start = '';
+    // bar.default.end = '';
+    // bar.default.text = '{bar}';
 
     const embed = new Discord.MessageEmbed()
       .setTitle(name)
       .setURL(link)
-      .setDescription(`${toReadableTime(current)} - [${bar.progress(20, value)}] - ${toReadableTime(end)}`)
+      // .setDescription(`${toReadableTime(current)} - [${bar.progress(20, value)}] - ${toReadableTime(end)}`)
       .setColor('BLURPLE')
       .setThumbnail(`${tn}`)
       .setTimestamp();
