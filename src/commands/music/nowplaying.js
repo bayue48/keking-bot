@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const bar = require(`stylish-text`);
+// const bar = require(`stylish-text`);
 
 module.exports = {
   name: 'nowplaying',
