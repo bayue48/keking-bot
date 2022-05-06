@@ -1,5 +1,6 @@
 module.exports = {
   name: 'autoplay',
+  aliases: ['ap'],
   inVoiceChannel: true,
   execute: async (client, message) => {
     const queue = client.distube.getQueue(message);
