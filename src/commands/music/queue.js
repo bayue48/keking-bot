@@ -7,7 +7,6 @@ module.exports = {
     const q = queue.songs
       .map((song, i) => `${i === 0 ? 'Playing:' : `${i}.`} ${song.name} - \`${song.formattedDuration}\``)
       .join('\n');
-    console.log(queue.songs[20]);
     if (q.length > 2000) {
       slice = q.slice(0, 500);
       message.channel.send(`${client.emotes.queue} | **Server Queue**\n${slice}`);

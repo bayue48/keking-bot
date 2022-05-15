@@ -4,7 +4,7 @@ module.exports = {
   execute(client) {
     client.user.setActivity({
       type: 'PLAYING',
-      name: `ngoding sama Yu - https://keking.herokuapp.com`
+      name: `-help for list of commands | ${client.guilds.cache.size} servers | ${client.users.cache.size} users`
     });
     console.log(`Ready! Logged in as ${client.user.tag}`);
   }
