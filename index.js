@@ -89,27 +89,60 @@ client.on('messageCreate', async message => {
   }
 });
 
-const status = queue =>
-  `Volume: \`${queue.volume}%\` | Filter: \`${queue.filters.join(', ') || 'Off'}\` | Loop: \`${
-    queue.repeatMode ? (queue.repeatMode === 2 ? 'All Queue' : 'This Song') : 'Off'
-  }\` | Autoplay: \`${queue.autoplay ? 'On' : 'Off'}\``;
+// const status = queue =>
+//   `Volume: \`${queue.volume}%\` | Filter: \`${queue.filters.join(', ') || 'Off'}\` | Loop: \`${
+//     queue.repeatMode ? (queue.repeatMode === 2 ? 'All Queue' : 'This Song') : 'Off'
+//   }\` | Autoplay: \`${queue.autoplay ? 'On' : 'Off'}\``;
 client.distube
-  .on('playSong', (queue, song) =>
-    queue.textChannel.send(
-      `${client.emotes.play} | Playing \`${song.name}\` - \`${song.formattedDuration}\`\n${status(queue)}`
-    )
+  .on(
+    'playSong',
+    (queue, song) => {
+      let playembed = new Discord.MessageEmbed()
+        .setColor('BLURPLE')
+        .setTitle(`🎵 Playing `)
+        .setThumbnail(song.thumbnail)
+        .setDescription(`[${song.name}](${song.url})`)
+        .addField('Requested By', `${song.user}`, true)
+        .addField('Duration', `${song.formattedDuration.toString()}`, true);
+      queue.textChannel.send({ embeds: [playembed] });
+    }
+    // queue.textChannel.send(
+    //   `${client.emotes.play} | Playing \`${song.name}\` - \`${song.formattedDuration}\`\n${status(queue)}`
+    // )
   )
-  .on('addSong', (queue, song) =>
-    queue.textChannel.send(
-      `${client.emotes.success} | Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}`
-    )
+  .on(
+    'addSong',
+    (queue, song) => {
+      let playembed = new Discord.MessageEmbed()
+        .setColor('BLURPLE')
+        .setTitle(`🎵 Added to Queue `)
+        .setThumbnail(song.thumbnail)
+        .setDescription(`[${song.name}](${song.url})`)
+        .addField('Requested By', `${song.user}`, true)
+        .addField('Duration', `${song.formattedDuration.toString()}`, true);
+      queue.textChannel.send({ embeds: [playembed] });
+    }
+    // queue.textChannel.send(
+    //   `${client.emotes.success} | Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}`
+    // )
   )
-  .on('addList', (queue, playlist) =>
-    queue.textChannel.send(
-      `${client.emotes.success} | Added \`${playlist.name}\` playlist (${
-        playlist.songs.length
-      } songs) to queue\n${status(queue)}`
-    )
+  .on(
+    'addList',
+    (queue, playlist) => {
+      let playembed = new Discord.MessageEmbed()
+        .setColor('BLURPLE')
+        .setTitle(`🎵 PlayList Added to Queue `)
+        .setThumbnail(playlist.thumbnail)
+        .setDescription(`[${playlist.name} (${playlist.songs.length} songs](${playlist.url})`)
+        .addField('Requested By', `${playlist.user}`, true)
+        .addField('Duration', `${playlist.formattedDuration.toString()}`, true);
+      queue.textChannel.send({ embeds: [playembed] });
+    }
+    // queue.textChannel.send(
+    //   `${client.emotes.success} | Added \`${playlist.name}\` playlist (${
+    //     playlist.songs.length
+    //   } songs) to queue\n${status(queue)}`
+    // )
   )
   .on('error', (message, e) => {
     message.channel.send(`${client.emotes.error} | An error encountered: ${e.toString().slice(0, 1974)}`);
