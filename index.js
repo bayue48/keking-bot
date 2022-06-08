@@ -135,11 +135,17 @@ client.distube
     (queue, playlist) => {
       queue.textChannel.send({
         embeds: [
-          util.createMessageEmbed('🎵 PlayList Added to Queue', null, `[${song.name}](${song.url})`, song.thumbnail, [
-            { name: 'Requested By', value: `${song.user}`, inline: true },
-            { name: 'Duration', value: `${song.formattedDuration.toString()}`, inline: true },
-            { name: 'Status', value: status(queue) }
-          ])
+          util.createMessageEmbed(
+            '🎵 PlayList Added to Queue',
+            null,
+            `[${playlist.name} (${playlist.songs.length} songs)](${playlist.url})`,
+            song.thumbnail,
+            [
+              { name: 'Requested By', value: `${song.user}`, inline: true },
+              { name: 'Duration', value: `${song.formattedDuration.toString()}`, inline: true },
+              { name: 'Status', value: status(queue) }
+            ]
+          )
         ]
       });
     }
