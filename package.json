@@ -30,7 +30,7 @@
     "@j0r6it0/lyricsfinder": "^1.2.2",
     "discord-api-types": "^0.29.0",
     "discord.js": "^13.6.0",
-    "distube": "^3.3.2",
+    "distube": "^3.3.4",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "ffmpeg-static": "^4.4.1",

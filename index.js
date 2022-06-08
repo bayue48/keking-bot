@@ -17,6 +17,7 @@ const express = require('express');
 const app = express();
 const { PORT, TOKEN } = process.env;
 const server = PORT || 3000;
+const util = require('./src/helpers/embed');
 
 app.listen(server, () => {
   console.log(`Server is running at port ${PORT}`);
@@ -89,22 +90,24 @@ client.on('messageCreate', async message => {
   }
 });
 
-// const status = queue =>
-//   `Volume: \`${queue.volume}%\` | Filter: \`${queue.filters.join(', ') || 'Off'}\` | Loop: \`${
-//     queue.repeatMode ? (queue.repeatMode === 2 ? 'All Queue' : 'This Song') : 'Off'
-//   }\` | Autoplay: \`${queue.autoplay ? 'On' : 'Off'}\``;
+const status = queue =>
+  `Volume: \`${queue.volume}%\` | Filter: \`${queue.filters.join(', ') || 'Off'}\` | Loop: \`${
+    queue.repeatMode ? (queue.repeatMode === 2 ? 'All Queue' : 'This Song') : 'Off'
+  }\` | Autoplay: \`${queue.autoplay ? 'On' : 'Off'}\``;
+
 client.distube
   .on(
     'playSong',
     (queue, song) => {
-      let playembed = new Discord.MessageEmbed()
-        .setColor('BLURPLE')
-        .setTitle(`🎵 Playing `)
-        .setThumbnail(song.thumbnail)
-        .setDescription(`[${song.name}](${song.url})`)
-        .addField('Requested By', `${song.user}`, true)
-        .addField('Duration', `${song.formattedDuration.toString()}`, true);
-      queue.textChannel.send({ embeds: [playembed] });
+      queue.textChannel.send({
+        embeds: [
+          util.createMessageEmbed('🎵 Playing', null, `[${song.name}](${song.url})`, song.thumbnail, [
+            { name: 'Requested By', value: `${song.user}`, inline: true },
+            { name: 'Duration', value: `${song.formattedDuration.toString()}`, inline: true },
+            { name: 'Status', value: status(queue) }
+          ])
+        ]
+      });
     }
     // queue.textChannel.send(
     //   `${client.emotes.play} | Playing \`${song.name}\` - \`${song.formattedDuration}\`\n${status(queue)}`
@@ -113,14 +116,15 @@ client.distube
   .on(
     'addSong',
     (queue, song) => {
-      let playembed = new Discord.MessageEmbed()
-        .setColor('BLURPLE')
-        .setTitle(`🎵 Added to Queue `)
-        .setThumbnail(song.thumbnail)
-        .setDescription(`[${song.name}](${song.url})`)
-        .addField('Requested By', `${song.user}`, true)
-        .addField('Duration', `${song.formattedDuration.toString()}`, true);
-      queue.textChannel.send({ embeds: [playembed] });
+      queue.textChannel.send({
+        embeds: [
+          util.createMessageEmbed('🎵 Added to Queue', null, `[${song.name}](${song.url})`, song.thumbnail, [
+            { name: 'Requested By', value: `${song.user}`, inline: true },
+            { name: 'Duration', value: `${song.formattedDuration.toString()}`, inline: true },
+            { name: 'Status', value: status(queue) }
+          ])
+        ]
+      });
     }
     // queue.textChannel.send(
     //   `${client.emotes.success} | Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}`
@@ -129,14 +133,15 @@ client.distube
   .on(
     'addList',
     (queue, playlist) => {
-      let playembed = new Discord.MessageEmbed()
-        .setColor('BLURPLE')
-        .setTitle(`🎵 PlayList Added to Queue `)
-        .setThumbnail(playlist.thumbnail)
-        .setDescription(`[${playlist.name} (${playlist.songs.length} songs](${playlist.url})`)
-        .addField('Requested By', `${playlist.user}`, true)
-        .addField('Duration', `${playlist.formattedDuration.toString()}`, true);
-      queue.textChannel.send({ embeds: [playembed] });
+      queue.textChannel.send({
+        embeds: [
+          util.createMessageEmbed('🎵 PlayList Added to Queue', null, `[${song.name}](${song.url})`, song.thumbnail, [
+            { name: 'Requested By', value: `${song.user}`, inline: true },
+            { name: 'Duration', value: `${song.formattedDuration.toString()}`, inline: true },
+            { name: 'Status', value: status(queue) }
+          ])
+        ]
+      });
     }
     // queue.textChannel.send(
     //   `${client.emotes.success} | Added \`${playlist.name}\` playlist (${
@@ -145,28 +150,52 @@ client.distube
     // )
   )
   .on('error', (message, e) => {
-    message.channel.send(`${client.emotes.error} | An error encountered: ${e.toString().slice(0, 1974)}`);
     console.error(e);
+    return message.channel.send({
+      embeds: [util.createTextEmbed(`${client.emotes.error} | An error encountered: ${e.toString().slice(0, 1974)}`)]
+    });
   })
-  .on('empty', message => message.channel.send('Voice channel is empty! Leaving the channel...'))
-  .on('searchNoResult', (message, query) =>
-    message.channel.send(`${client.emotes.error} | No result found for \`${query}\`!`)
+  .on('empty', message =>
+    message.channel.send({
+      embeds: [util.createTextEmbed('Voice channel is empty! Leaving the channel...')]
+    })
   )
-  .on('finish', queue => queue.textChannel.send('Finished!'))
+  .on('searchNoResult', (message, query) =>
+    message.channel.send({
+      embeds: [util.createTextEmbed(`${client.emotes.error} | No result found for \`${query}\`!`)]
+    })
+  )
+  .on('finish', queue =>
+    queue.textChannel.send({
+      embeds: [util.createTextEmbed('Finished!')]
+    })
+  )
   // DisTubeOptions.searchSongs = true
   .on('searchResult', (message, result) => {
     let i = 0;
-    message.channel.send(
-      `**Choose an option from below**\n${result
-        .map(song => `**${++i}**. ${song.name} - \`${song.formattedDuration}\``)
-        .join('\n')}\n*Enter anything else or wait 60 seconds to cancel*`
-    );
+    message.channel.send({
+      embeds: [
+        util.createTextEmbed(
+          `**Choose an option from below**\n${result
+            .map(song => `**${++i}**. ${song.name} - \`${song.formattedDuration}\``)
+            .join('\n')}\n*Enter anything else or wait 60 seconds to cancel*`
+        )
+      ]
+    });
   })
-  .on('searchCancel', message => message.channel.send(`${client.emotes.error} | Searching canceled`))
+  .on('searchCancel', message =>
+    message.channel.send({
+      embeds: [util.createTextEmbed(`${client.emotes.error} | Searching canceled`)]
+    })
+  )
   .on('searchInvalidAnswer', message =>
-    message.channel.send(
-      `${client.emotes.error} | Invalid answer! You have to enter the number in the range of the results`
-    )
+    message.channel.send({
+      embeds: [
+        util.createTextEmbed(
+          `${client.emotes.error} | Invalid answer! You have to enter the number in the range of the results`
+        )
+      ]
+    })
   )
   .on('searchDone', () => {});
 

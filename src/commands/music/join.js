@@ -1,4 +1,5 @@
 const { Constants } = require('discord.js');
+const util = require('../../helpers/embed');
 
 module.exports = {
   name: 'join',
@@ -8,13 +9,17 @@ module.exports = {
     if (args[0]) {
       voiceChannel = await client.channels.fetch(args[0]);
       if (!Constants.VoiceBasedChannelTypes.includes(voiceChannel?.type)) {
-        return message.channel.send(`${client.emotes.error} | ${args[0]} is not a valid voice channel!`);
+        return message.channel.send({
+          embeds: [util.createTextEmbed(`${client.emotes.error} | ${args[0]} is not a valid voice channel!`)]
+        });
       }
     }
     if (!voiceChannel) {
-      return message.channel.send(
-        `${client.emotes.error} | You must be in a voice channel or enter a voice channel id!`
-      );
+      return message.channel.send({
+        embeds: [
+          util.createTextEmbed(`${client.emotes.error} | You must be in a voice channel or enter a voice channel id!`)
+        ]
+      });
     }
     client.distube.voices.join(voiceChannel);
   }

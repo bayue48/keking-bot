@@ -1,3 +1,5 @@
+const util = require('../../helpers/embed');
+
 module.exports = {
   name: 'jump',
   aliases: ['j'],
@@ -11,15 +13,21 @@ module.exports = {
       //     args[0]
       //   )} songs!`
       // );
-      return client.distube
-        .jump(message, parseInt(args[0]))
-        .catch(err => message.channel.send(err, `${client.emotes.error} | Invalid song number.`));
-    } else {
-      message.channel.send(
-        `${client.emotes.error} | Invalid song number. Please use a number between **0** and **${
-          queue.songs.length - 1
-        }**`
+      return client.distube.jump(message, parseInt(args[0])).catch(err =>
+        message.channel.send(err, {
+          embeds: [util.createTextEmbed(`${client.emotes.error} | Invalid song number.`)]
+        })
       );
+    } else {
+      message.channel.send({
+        embeds: [
+          util.createTextEmbed(
+            `${client.emotes.error} | Invalid song number. Please use a number between **1** and **${
+              queue.songs.length - 1
+            }**`
+          )
+        ]
+      });
     }
     // client.distube
     //   .jump(message, parseInt(args[0]))

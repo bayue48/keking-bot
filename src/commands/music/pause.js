@@ -1,15 +1,24 @@
+const util = require('../../helpers/embed');
+
 module.exports = {
   name: 'pause',
   aliases: ['hold'],
   inVoiceChannel: true,
   execute: async (client, message) => {
     const queue = client.distube.getQueue(message);
-    if (!queue) return message.channel.send(`${client.emotes.error} | There is nothing in the queue right now!`);
-    if (queue.pause) {
+    if (!queue)
+      return message.channel.send({
+        embeds: [util.createTextEmbed(`${client.emotes.error} | There is nothing in the queue right now!`)]
+      });
+
+    if (queue.paused) {
+      queue.pause();
+      return message.channel.send({ embeds: [util.createTextEmbed(`${client.emotes.pause} | Paused the music!`)] });
+    } else {
       queue.resume();
-      return message.channel.send('Resumed the song for you :)');
+      return message.channel.send({ embeds: [util.createTextEmbed(`${client.emotes.success} | Resumed the music!`)] });
     }
-    queue.pause();
-    message.channel.send('Paused the song for you :)');
+
+    console.log(queue.paused);
   }
 };
