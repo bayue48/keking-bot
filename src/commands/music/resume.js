@@ -10,7 +10,11 @@ module.exports = {
       return message.channel.send({
         embeds: [util.createTextEmbed(`${client.emotes.error} | There is nothing in the queue right now!`)]
       });
-    queue.resume();
-    message.channel.send({ embeds: [util.createTextEmbed('Resumed the song for you :)')] });
+    if (queue.paused === false) {
+      message.channel.send({ embeds: [util.createTextEmbed('The queue has been playing already')] });
+    } else {
+      queue.resume();
+      message.channel.send({ embeds: [util.createTextEmbed('Resumed the song for you :)')] });
+    }
   }
 };

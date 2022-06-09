@@ -22,7 +22,7 @@ module.exports = {
       });
     } else {
       return message.channel.send({
-        embeds: [util.createTextEmbed(`${client.emotes.error} | Please enter a number between 0 and 100!`)]
+        embeds: [util.createTextEmbed(`${client.emotes.error} | Please enter a number between 1 and 100!`)]
       });
     }
   }
