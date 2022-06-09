@@ -15,7 +15,7 @@ module.exports = {
       return message.channel.send({
         embeds: [util.createTextEmbed(`${client.emotes.error} | Please enter a valid number!`)]
       });
-    if (volume < 0 || volume > 100) {
+    if (volume < 0 || volume <= 100) {
       queue.setVolume(volume);
       message.channel.send({
         embeds: [util.createTextEmbed(`${client.emotes.success} | Volume set to \`${volume}\``)]
