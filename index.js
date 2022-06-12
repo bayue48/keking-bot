@@ -139,10 +139,10 @@ client.distube
             '🎵 PlayList Added to Queue',
             null,
             `[${playlist.name} (${playlist.songs.length} songs)](${playlist.url})`,
-            song.thumbnail,
+            playlist.thumbnail,
             [
-              { name: 'Requested By', value: `${song.user}`, inline: true },
-              { name: 'Duration', value: `${song.formattedDuration.toString()}`, inline: true },
+              { name: 'Requested By', value: `${playlist.user}`, inline: true },
+              { name: 'Duration', value: `${playlist.formattedDuration.toString()}`, inline: true },
               { name: 'Status', value: status(queue) }
             ]
           )

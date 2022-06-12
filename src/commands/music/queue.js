@@ -10,7 +10,7 @@ module.exports = {
         embeds: [util.createTextEmbed(`${client.emotes.error} | There is nothing playing!`)]
       });
     const q = queue.songs
-      .map((song, i) => `${i === 0 ? 'Playing:' : `${i}.`} ${song.name} - \`${song.formattedDuration}\``)
+      .map((song, i) => `${i === 0 ? 'Playing:' : `${i}.`} ${song.name} - \`${song.formattedDuration}\` - Requested by ${song.user}`)
       .join('\n');
     if (q.length > 2000) {
       slice = q.slice(0, 500);
