@@ -59,7 +59,7 @@
 
 Runs the app in the development mode.
 
-`npm start` or `nodemon index`.
+`npm start` or `npm run dev`.
 
 Then type `-help` in discord to view in all avilable commands.
 
