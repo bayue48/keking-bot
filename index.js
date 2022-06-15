@@ -103,24 +103,26 @@ const status = queue =>
   }\` | Autoplay: \`${queue.autoplay ? 'On' : 'Off'}\``;
 
 client.distube
-  .on('playSong', (queue, song) => {
-    if (song.playlist) {
-      queue.textChannel.send({
-        embeds: [
-          util.createMessageEmbed(
-            '🎵 PlayList Added to Queue',
-            null,
-            `[${song.playlist.name} (${song.playlist.songs.length} songs)](${song.playlist.url})`,
-            song.playlist.thumbnail,
-            [
-              { name: 'Requested By', value: `${song.playlist.user}`, inline: true },
-              { name: 'Duration', value: `${song.playlist.formattedDuration.toString()}`, inline: true },
-              { name: 'Status', value: status(queue) }
-            ]
-          )
-        ]
-      });
-    } else {
+  .on(
+    'playSong',
+    (queue, song) => {
+      // if (song.playlist) {
+      //   queue.textChannel.send({
+      //     embeds: [
+      //       util.createMessageEmbed(
+      //         '🎵 PlayList Added to Queue',
+      //         null,
+      //         `[${song.playlist.name} (${song.playlist.songs.length} songs)](${song.playlist.url})`,
+      //         song.playlist.thumbnail,
+      //         [
+      //           { name: 'Requested By', value: `${song.playlist.user}`, inline: true },
+      //           { name: 'Duration', value: `${song.playlist.formattedDuration.toString()}`, inline: true },
+      //           { name: 'Status', value: status(queue) }
+      //         ]
+      //       )
+      //     ]
+      //   });
+      // } else {
       queue.textChannel.send({
         embeds: [
           util.createMessageEmbed('🎵 Playing', null, `[${song.name}](${song.url})`, song.thumbnail, [
@@ -131,7 +133,8 @@ client.distube
         ]
       });
     }
-  })
+    // }
+  )
   .on('addSong', (queue, song) => {
     queue.textChannel.send({
       embeds: [
