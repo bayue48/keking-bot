@@ -35,7 +35,7 @@ module.exports = {
         )
         .join('\n');
       const embed = new MessageEmbed()
-        .setTitle('Server Queue')
+        .setTitle('🎵 Server Queue')
         .setColor('BLURPLE')
         .setTimestamp()
         .setDescription(
