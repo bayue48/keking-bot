@@ -3,8 +3,9 @@ const util = require('../../helpers/embed');
 module.exports = {
   name: 'remove',
   aliases: ['delete', 'rm', 'del', 'd'],
-  description: 'Removes a song from the queue.',
   inVoiceChannel: true,
+  usage: 'remove <song number>',
+  description: 'Removes a song from the queue.',
   execute: async (client, message, args) => {
     const queue = client.distube.getQueue(message);
     if (!queue) return message.channel.send({ embeds: [util.createTextEmbed('There is no queue.')] });

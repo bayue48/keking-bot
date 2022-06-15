@@ -5,8 +5,7 @@ module.exports = {
     client.user.setActivity({
       type: 'PLAYING',
       name: `type '-help' for list of commands
-      | watching ${client.guilds.cache.size} servers
-      | playing with ${client.users.cache.size} users`
+      | watching ${client.guilds.cache.size} servers`
     });
     console.log(`Ready! Logged in as ${client.user.tag}`);
   }

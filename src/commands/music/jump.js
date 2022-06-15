@@ -3,16 +3,13 @@ const util = require('../../helpers/embed');
 module.exports = {
   name: 'jump',
   aliases: ['j'],
-  description: 'Jump to song from playlist.',
   inVoiceChannel: true,
+  usage: 'jump <number>',
+  description: 'Jump to song from playlist.',
   execute: async (client, message, args) => {
     let queue = client.distube.getQueue(message);
     if (0 <= Number(args[0]) && Number(args[0]) <= queue.songs.length) {
-      // message.channel.send(
-      //   `${client.emotes.play} Successfully jumped to number ${parseInt(
-      //     args[0]
-      //   )} songs!`
-      // );
+      message.channel.send(util.createTextEmbed(`Jumped to ${Number(args[0])} song!`));
       return client.distube.jump(message, parseInt(args[0])).catch(err =>
         message.channel.send(err, {
           embeds: [util.createTextEmbed(`${client.emotes.error} | Invalid song number.`)]
@@ -29,13 +26,5 @@ module.exports = {
         ]
       });
     }
-    // client.distube
-    //   .jump(message, parseInt(args[0]))
-    //   .catch((err) =>
-    //     message.channel.send(
-    //       err,
-    //       `${client.emotes.error} | Invalid song number.`
-    //     )
-    //   );
   }
 };

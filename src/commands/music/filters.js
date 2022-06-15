@@ -1,9 +1,29 @@
 const util = require('../../helpers/embed');
 
+const filter = [
+  '3d',
+  'bassboost',
+  'echo',
+  'karaoke',
+  'nightcore',
+  'vaporwave',
+  'flanger',
+  'gate',
+  'haas',
+  'reverse',
+  'surround',
+  'mcompand',
+  'phaser',
+  'tremolo',
+  'earwax'
+];
+
 module.exports = {
   name: 'filter',
   aliases: ['filters'],
   inVoiceChannel: true,
+  usage: 'filter <filter>',
+  description: `Audio filters, available filters: ${filter.join(', ')}`,
   execute: async (client, message, args) => {
     const queue = client.distube.getQueue(message);
     if (!queue)

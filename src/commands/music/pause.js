@@ -4,6 +4,8 @@ module.exports = {
   name: 'pause',
   aliases: ['hold'],
   inVoiceChannel: true,
+  usage: 'pause',
+  description: 'Pause the current song',
   execute: async (client, message) => {
     const queue = client.distube.getQueue(message);
     if (!queue)

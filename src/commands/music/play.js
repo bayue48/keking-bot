@@ -4,6 +4,8 @@ module.exports = {
   name: 'play',
   aliases: ['p'],
   inVoiceChannel: true,
+  usage: 'play <song name>',
+  description: 'Play a song',
   execute: async (client, message, args) => {
     const string = args.join(' ');
     if (!string)

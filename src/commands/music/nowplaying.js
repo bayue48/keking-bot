@@ -6,8 +6,9 @@ const util = require('../../helpers/embed');
 module.exports = {
   name: 'nowplaying',
   aliases: ['np'],
-  description: 'Show the currently playing song.',
   inVoiceChannel: true,
+  usage: 'nowplaying',
+  description: 'Show the currently playing song.',
   execute: async (client, message) => {
     const queue = client.distube.getQueue(message);
 

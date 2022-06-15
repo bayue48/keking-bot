@@ -4,6 +4,9 @@ const util = require('../../helpers/embed');
 module.exports = {
   name: 'join',
   aliases: ['move'],
+  inVoiceChannel: true,
+  usage: 'join',
+  description: 'Join bot to voice channel',
   execute: async (client, message, args) => {
     let voiceChannel = message.member.voice.channel;
     if (args[0]) {

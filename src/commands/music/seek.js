@@ -2,7 +2,10 @@ const util = require('../../helpers/embed');
 
 module.exports = {
   name: 'seek',
+  aliases: ['to'],
   inVoiceChannel: true,
+  usage: 'seek <time>',
+  description: 'Seek to a certain time',
   execute: async (client, message, args) => {
     const queue = client.distube.getQueue(message);
     if (!queue)

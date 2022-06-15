@@ -2,7 +2,10 @@ const util = require('../../helpers/embed');
 
 module.exports = {
   name: 'shuffle',
+  aliases: ['sh'],
   inVoiceChannel: true,
+  usage: 'shuffle',
+  description: 'Shuffle the queue',
   execute: async (client, message) => {
     const queue = client.distube.getQueue(message);
     if (!queue)

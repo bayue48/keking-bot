@@ -4,6 +4,8 @@ module.exports = {
   name: 'autoplay',
   aliases: ['ap'],
   inVoiceChannel: true,
+  usage: 'autoplay',
+  description: 'Toggle autoplay',
   execute: async (client, message) => {
     const queue = client.distube.getQueue(message);
     if (!queue)

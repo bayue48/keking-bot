@@ -4,7 +4,9 @@ module.exports = {
   name: 'repeat',
   aliases: ['loop', 'rp'],
   inVoiceChannel: true,
-  execute: async (client, message, args) => {
+  usage: 'repeat',
+  description: 'Toggle repeat',
+  execute: async (client, message) => {
     const queue = client.distube.getQueue(message);
 
     if (!queue)

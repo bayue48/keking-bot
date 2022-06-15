@@ -5,8 +5,9 @@ const util = require('../../helpers/embed');
 module.exports = {
   name: 'lyrics',
   aliases: ['ly'],
-  description: 'Finds lyrics for a song',
   inVoiceChannel: true,
+  usage: 'lyrics',
+  description: 'Finds lyrics for a song',
   execute: async (client, message) => {
     const queue = client.distube.getQueue(message);
 

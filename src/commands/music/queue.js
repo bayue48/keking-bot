@@ -3,20 +3,25 @@ const util = require('../../helpers/embed');
 module.exports = {
   name: 'queue',
   aliases: ['q'],
-  execute: async (client, message) => {
+  inVoiceChannel: true,
+  usage: 'queue',
+  description: 'Show the queue',
+  execute: async (client, message, args) => {
     const queue = client.distube.getQueue(message);
     if (!queue)
       return message.channel.send({
         embeds: [util.createTextEmbed(`${client.emotes.error} | There is nothing playing!`)]
       });
-    const q = queue.songs
-      .map((song, i) => `${i === 0 ? 'Playing:' : `${i}.`} ${song.name} - \`${song.formattedDuration}\` - Requested by ${song.user}`)
-      .join('\n');
-    if (q.length > 2000) {
-      slice = q.slice(0, 500);
-      message.channel.send({ embeds: [util.createTextEmbed(`${client.emotes.queue} | **Server Queue**\n${slice}`)] });
-    } else {
-      message.channel.send({ embeds: [util.createTextEmbed(`${client.emotes.queue} | **Server Queue**\n${q}`)] });
-    }
+
+    const q = util.createQueueEmbed(queue.songs);
+    q.forEach((e, i) => {
+      e.footer = {
+        text: `Page ${i + 1}/${q.length} | ${queue.songs.length} songs`
+      };
+    });
+
+    message.channel.send({
+      embeds: [q[0]]
+    });
   }
 };

@@ -15,7 +15,7 @@ const { SoundCloudPlugin } = require('@distube/soundcloud');
 const { YtDlpPlugin } = require('@distube/yt-dlp');
 const express = require('express');
 const app = express();
-const { PORT, TOKEN } = process.env;
+const { PORT, TOKEN, DEV } = process.env;
 const server = PORT || 3000;
 const util = require('./src/helpers/embed');
 
@@ -34,7 +34,7 @@ client.distube = new DisTube(client, {
   emitAddSongWhenCreatingQueue: false,
   emitAddListWhenCreatingQueue: false,
   savePreviousSongs: true,
-  searchSongs: 5,
+  // searchSongs: 5,
   nsfw: true,
   plugins: [
     new SpotifyPlugin({
@@ -48,6 +48,7 @@ client.distube = new DisTube(client, {
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
 client.emotes = emoji;
+client.prefix = prefix;
 
 const commandFolders = fs.readdirSync('./src/commands');
 
@@ -80,13 +81,19 @@ client.on('messageCreate', async message => {
   const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
   if (!cmd) return;
   if (cmd.inVoiceChannel && !message.member.voice.channel) {
-    return message.channel.send(`${client.emotes.error} | You must be in a voice channel!`);
+    return message.channel.send({
+      embeds: [util.createTextEmbed(`${client.emotes.error} | You must be in a voice channel to use this command.`)]
+    });
   }
   try {
     cmd.execute(client, message, args);
   } catch (e) {
     console.error(e);
-    message.channel.send(`${client.emotes.error} | Error: \`${e}\``);
+    message.channel.send({
+      embeds: [
+        util.createTextEmbed(`${client.emotes.error} | An error occured while executing this command. | \`${e}\``)
+      ]
+    });
   }
 });
 
@@ -96,9 +103,24 @@ const status = queue =>
   }\` | Autoplay: \`${queue.autoplay ? 'On' : 'Off'}\``;
 
 client.distube
-  .on(
-    'playSong',
-    (queue, song) => {
+  .on('playSong', (queue, song) => {
+    if (song.playlist) {
+      queue.textChannel.send({
+        embeds: [
+          util.createMessageEmbed(
+            '🎵 PlayList Added to Queue',
+            null,
+            `[${song.playlist.name} (${song.playlist.songs.length} songs)](${song.playlist.url})`,
+            song.playlist.thumbnail,
+            [
+              { name: 'Requested By', value: `${song.playlist.user}`, inline: true },
+              { name: 'Duration', value: `${song.playlist.formattedDuration.toString()}`, inline: true },
+              { name: 'Status', value: status(queue) }
+            ]
+          )
+        ]
+      });
+    } else {
       queue.textChannel.send({
         embeds: [
           util.createMessageEmbed('🎵 Playing', null, `[${song.name}](${song.url})`, song.thumbnail, [
@@ -109,60 +131,44 @@ client.distube
         ]
       });
     }
-    // queue.textChannel.send(
-    //   `${client.emotes.play} | Playing \`${song.name}\` - \`${song.formattedDuration}\`\n${status(queue)}`
-    // )
-  )
-  .on(
-    'addSong',
-    (queue, song) => {
-      queue.textChannel.send({
-        embeds: [
-          util.createMessageEmbed('🎵 Added to Queue', null, `[${song.name}](${song.url})`, song.thumbnail, [
-            { name: 'Requested By', value: `${song.user}`, inline: true },
-            { name: 'Duration', value: `${song.formattedDuration.toString()}`, inline: true },
+  })
+  .on('addSong', (queue, song) => {
+    queue.textChannel.send({
+      embeds: [
+        util.createMessageEmbed('🎵 Added to Queue', null, `[${song.name}](${song.url})`, song.thumbnail, [
+          { name: 'Requested By', value: `${song.user}`, inline: true },
+          { name: 'Duration', value: `${song.formattedDuration.toString()}`, inline: true },
+          { name: 'Status', value: status(queue) }
+        ])
+      ]
+    });
+  })
+  .on('addList', (queue, playlist) => {
+    queue.textChannel.send({
+      embeds: [
+        util.createMessageEmbed(
+          '🎵 PlayList Added to Queue',
+          null,
+          `[${playlist.name} (${playlist.songs.length} songs)](${playlist.url})`,
+          playlist.thumbnail,
+          [
+            { name: 'Requested By', value: `${playlist.user}`, inline: true },
+            { name: 'Duration', value: `${playlist.formattedDuration.toString()}`, inline: true },
             { name: 'Status', value: status(queue) }
-          ])
-        ]
-      });
-    }
-    // queue.textChannel.send(
-    //   `${client.emotes.success} | Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}`
-    // )
-  )
-  .on(
-    'addList',
-    (queue, playlist) => {
-      queue.textChannel.send({
-        embeds: [
-          util.createMessageEmbed(
-            '🎵 PlayList Added to Queue',
-            null,
-            `[${playlist.name} (${playlist.songs.length} songs)](${playlist.url})`,
-            playlist.thumbnail,
-            [
-              { name: 'Requested By', value: `${playlist.user}`, inline: true },
-              { name: 'Duration', value: `${playlist.formattedDuration.toString()}`, inline: true },
-              { name: 'Status', value: status(queue) }
-            ]
-          )
-        ]
-      });
-    }
-    // queue.textChannel.send(
-    //   `${client.emotes.success} | Added \`${playlist.name}\` playlist (${
-    //     playlist.songs.length
-    //   } songs) to queue\n${status(queue)}`
-    // )
-  )
-  .on('error', (message, e) => {
+          ]
+        )
+      ]
+    });
+  })
+  .on('noRelated', queue => queue.textChannel.send("Can't find related video to play."))
+  .on('error', (channel, e) => {
     console.error(e);
-    return message.channel.send({
+    channel.send({
       embeds: [util.createTextEmbed(`${client.emotes.error} | An error encountered: ${e.toString().slice(0, 1974)}`)]
     });
   })
-  .on('empty', message =>
-    message.channel.send({
+  .on('empty', queue =>
+    queue.textChannel.send({
       embeds: [util.createTextEmbed('Voice channel is empty! Leaving the channel...')]
     })
   )
@@ -173,7 +179,7 @@ client.distube
   )
   .on('finish', queue =>
     queue.textChannel.send({
-      embeds: [util.createTextEmbed('Finished!')]
+      embeds: [util.createTextEmbed('No more song in queue')]
     })
   )
   // DisTubeOptions.searchSongs = true
