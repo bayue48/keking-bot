@@ -8,6 +8,16 @@
     "repeat": "🔁",
     "error": "❌",
     "load": "🔄",
-    "pause": "⏸️"
+    "pause": "⏸️",
+    "skip": "⏭️",
+    "next": "⏩",
+    "prev": "⏪",
+    "shuffle": "🔀",
+    "loop": "🔁",
+    "volume": "🔈",
+    "volume_up": "🔊",
+    "volume_down": "🔉",
+    "volume_mute": "🔇",
+    "volume_off": "🔇"
   }
 }

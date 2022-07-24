@@ -15,6 +15,10 @@ module.exports = {
           embeds: [util.createTextEmbed(`${client.emotes.error} | Invalid song number.`)]
         })
       );
+    } else if (!queue) {
+      return message.channel.send({
+        embeds: [util.createTextEmbed(`${client.emotes.error} | There is nothing playing!`)]
+      });
     } else {
       message.channel.send({
         embeds: [

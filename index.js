@@ -5,7 +5,8 @@ const client = new Discord.Client({
   intents: [
     Discord.Intents.FLAGS.GUILDS,
     Discord.Intents.FLAGS.GUILD_MESSAGES,
-    Discord.Intents.FLAGS.GUILD_VOICE_STATES
+    Discord.Intents.FLAGS.GUILD_VOICE_STATES,
+    Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS
   ]
 });
 const fs = require('fs');
@@ -24,7 +25,7 @@ app.listen(server, () => {
 });
 
 app.get('/', (_, res) => {
-  res.send("Made with love by bayue#1015");
+  res.send('Made with love by bayue#1015');
 });
 
 client.distube = new DisTube(client, {
