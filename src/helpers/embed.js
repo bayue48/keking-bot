@@ -11,7 +11,7 @@ module.exports = {
       .setTimestamp();
     if (fields) {
       for (const field of fields) {
-        embed.addFields(field.name, field.value, field.inline);
+        embed.addFields({ name: field.name, value: field.value, inline: field.inline });
       }
     }
     return embed;
