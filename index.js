@@ -17,7 +17,7 @@ const { YtDlpPlugin } = require('@distube/yt-dlp');
 const express = require('express');
 const app = express();
 const { PORT, TOKEN, DEV } = process.env;
-const server = PORT || 3000;
+const server = PORT || 3001;
 const util = require('./src/helpers/embed');
 
 app.listen(server, () => {
