@@ -3,14 +3,20 @@ const { DisTube } = require('distube');
 const Discord = require('discord.js');
 const client = new Discord.Client({
   intents: [
+    Discord.Intents.FLAGS.DIRECT_MESSAGE_TYPING,
+    Discord.Intents.FLAGS.DIRECT_MESSAGES,
+    Discord.Intents.FLAGS.MESSAGE_CONTENT,
     Discord.Intents.FLAGS.GUILDS,
     Discord.Intents.FLAGS.GUILD_MESSAGES,
     Discord.Intents.FLAGS.GUILD_VOICE_STATES,
     Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS
+  ], 
+  partials: [
+    'CHANNEL',
   ]
 });
 const fs = require('fs');
-const { emoji, prefix } = require('./configs/prefix.json');
+const { emoji, prefix, youtubeCookie, clientId, clientSecret } = require('./configs/prefix.json');
 const { SpotifyPlugin } = require('@distube/spotify');
 const { SoundCloudPlugin } = require('@distube/soundcloud');
 const { YtDlpPlugin } = require('@distube/yt-dlp');
@@ -19,6 +25,7 @@ const app = express();
 const { PORT, TOKEN, DEV } = process.env;
 const server = PORT || 3001;
 const util = require('./src/helpers/embed');
+const message = require('./src/events/message');
 
 app.listen(server, () => {
   console.log(`Server is running at port ${PORT}`);
@@ -28,6 +35,37 @@ app.get('/', (_, res) => {
   res.send('Made with love by bayue#1015');
 });
 
+client.emotes = emoji;
+client.prefix = prefix;
+client.youtubeCookie = youtubeCookie;
+client.clientId = clientId
+client.clientSecret = clientSecret
+
+let plugins;
+if (client.clientId && client.clientSecret) {
+  plugins = [
+    new SpotifyPlugin({
+      parallel: true,
+      emitEventsAfterFetching: true,
+      api: { clientId: client.clientId, clientSecret: client.clientSecret }
+    }),
+    new SoundCloudPlugin(),
+    new YtDlpPlugin({ update: true })
+  ]
+} else {
+  plugins = [
+    new SoundCloudPlugin(),
+    new YtDlpPlugin({ update: true })
+  ]
+}
+
+let youtubeCookies;
+if (client.youtubeCookie) {
+  youtubeCookies = client.youtubeCookie;
+} else {
+  youtubeCookies = 'none';
+}
+
 client.distube = new DisTube(client, {
   leaveOnStop: false,
   emitNewSongOnly: true,
@@ -36,19 +74,20 @@ client.distube = new DisTube(client, {
   savePreviousSongs: true,
   searchSongs: 5,
   nsfw: true,
-  plugins: [
-    new SpotifyPlugin({
-      emitEventsAfterFetching: true
-    }),
-    new SoundCloudPlugin(),
-    new YtDlpPlugin()
-  ],
+  plugins: plugins,
+  youtubeCookie: youtubeCookies,
+  ytdlOptions: {
+    highWaterMark: 1024 * 1024 * 64,
+    quality: "highestaudio",
+    format: "audioonly",
+    liveBuffer: 60000,
+    dlChunkSize: 1024 * 1024 * 4,
+  },
   youtubeDL: false
 });
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
-client.emotes = emoji;
-client.prefix = prefix;
+
 
 const commandFolders = fs.readdirSync('./src/commands');
 
@@ -69,16 +108,24 @@ for (const file of eventFiles) {
   if (event.once) {
     client.once(event.name, (...args) => event.execute(...args));
   } else {
-    client.on(event.name, (...args) => event.execute(...args));
+    if (message.name === "messageCreate") {
+      client.on(event.name, (...args) => event.execute(client, ...args));
+    } else {
+      client.on(event.name, (...args) => event.execute(...args));
+    }
   }
 }
 
 client.on('messageCreate', async message => {
-  if (message.author.bot || !message.guild) return;
-  if (!message.content.startsWith(prefix)) return;
+  if (!message.channel.type == "DM" && (message.author.bot || !message.guild)) return;
+  if (!message.content.startsWith(prefix)) return; 
+
   const args = message.content.slice(prefix.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
   const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
+
+  console.log(cmd)
+
   if (!cmd) return;
   if (cmd.inVoiceChannel && !message.member.voice.channel) {
     return message.channel.send({
@@ -98,8 +145,7 @@ client.on('messageCreate', async message => {
 });
 
 const status = queue =>
-  `Volume: \`${queue.volume}%\` | Filter: \`${queue.filters.join(', ') || 'Off'}\` | Loop: \`${
-    queue.repeatMode ? (queue.repeatMode === 2 ? 'All Queue' : 'This Song') : 'Off'
+  `Volume: \`${queue.volume}%\` | Filter: \`${queue.filters.join(', ') || 'Off'}\` | Loop: \`${queue.repeatMode ? (queue.repeatMode === 2 ? 'All Queue' : 'This Song') : 'Off'
   }\` | Autoplay: \`${queue.autoplay ? 'On' : 'Off'}\``;
 
 client.distube
@@ -191,6 +237,6 @@ client.distube
       ]
     })
   )
-  .on('searchDone', () => {});
+  .on('searchDone', () => { });
 
 client.login(TOKEN);
