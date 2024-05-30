@@ -1,4 +1,3 @@
-const Discord = require('discord.js');
 const util = require('../../helpers/embed');
 
 module.exports = {

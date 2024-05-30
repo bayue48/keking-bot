@@ -1,4 +1,3 @@
-const { MessageEmbed } = require('discord.js');
 const findLyrics = require('@j0r6it0/lyricsfinder');
 const util = require('../../helpers/embed');
 

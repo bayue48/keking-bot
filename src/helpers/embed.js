@@ -1,12 +1,12 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
   createMessageEmbed: (title, link, description, image, fields) => {
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle(title)
       .setURL(link)
       .setDescription(description)
-      .setColor('BLURPLE')
+      .setColor('Blurple')
       .setThumbnail(image)
       .setTimestamp();
     if (fields) {
@@ -17,7 +17,7 @@ module.exports = {
     return embed;
   },
   createTextEmbed: description => {
-    const embed = new MessageEmbed().setDescription(description).setColor('BLURPLE');
+    const embed = new EmbedBuilder().setDescription(description).setColor('Blurple');
     return embed;
   },
   createQueueEmbed: queue => {
@@ -34,9 +34,9 @@ module.exports = {
             `**${++j}.** [${track.name}](${track.url}) - \`${track.formattedDuration}\` - Requested by: ${track.user}`
         )
         .join('\n');
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setTitle('🎵 Server Queue')
-        .setColor('BLURPLE')
+        .setColor('Blurple')
         .setTimestamp()
         .setDescription(
           `**Current Song: [${queue[0].name}](${queue[0].url}) - \`${queue[0].formattedDuration}\` - Requested by: ${queue[0].user}**\n\n${info}`

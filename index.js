@@ -3,16 +3,16 @@ const { DisTube } = require('distube');
 const Discord = require('discord.js');
 const client = new Discord.Client({
   intents: [
-    Discord.Intents.FLAGS.DIRECT_MESSAGE_TYPING,
-    Discord.Intents.FLAGS.DIRECT_MESSAGES,
-    Discord.Intents.FLAGS.MESSAGE_CONTENT,
-    Discord.Intents.FLAGS.GUILDS,
-    Discord.Intents.FLAGS.GUILD_MESSAGES,
-    Discord.Intents.FLAGS.GUILD_VOICE_STATES,
-    Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS
-  ], 
+    Discord.GatewayIntentBits.DirectMessageTyping,
+    Discord.GatewayIntentBits.DirectMessages,
+    Discord.GatewayIntentBits.MessageContent,
+    Discord.GatewayIntentBits.Guilds,
+    Discord.GatewayIntentBits.GuildMessages,
+    Discord.GatewayIntentBits.GuildVoiceStates,
+    Discord.GatewayIntentBits.GuildMessageReactions
+  ],
   partials: [
-    'CHANNEL',
+    Discord.Partials.Channel,
   ]
 });
 const fs = require('fs');
@@ -82,8 +82,7 @@ client.distube = new DisTube(client, {
     format: "audioonly",
     liveBuffer: 60000,
     dlChunkSize: 1024 * 1024 * 4,
-  },
-  youtubeDL: false
+  }
 });
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
@@ -117,8 +116,8 @@ for (const file of eventFiles) {
 }
 
 client.on('messageCreate', async message => {
-  if (!message.channel.type == "DM" && (message.author.bot || !message.guild)) return;
-  if (!message.content.startsWith(prefix)) return; 
+  if (!message.channel.isDMBased() && (message.author.bot || !message.guild)) return;
+  if (!message.content.startsWith(prefix)) return;
 
   const args = message.content.slice(prefix.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
@@ -145,8 +144,8 @@ client.on('messageCreate', async message => {
 });
 
 const status = queue =>
-  `Volume: \`${queue.volume}%\` | Filter: \`${queue.filters.join(', ') || 'Off'}\` | Loop: \`${queue.repeatMode ? (queue.repeatMode === 2 ? 'All Queue' : 'This Song') : 'Off'
-  }\` | Autoplay: \`${queue.autoplay ? 'On' : 'Off'}\``;
+  `Volume: \`${queue.volume}%\` | Filter: \`${queue.filters.names.join(', ') || 'Off'}\` | Loop: \`${queue.repeatMode ? (queue.repeatMode === 2 ? 'All Queue' : 'This Song') : 'Off'
+  }\` | Autoplay: \`${queue.autoplay ? 'On' : 'Off'}\``
 
 client.distube
   .on('playSong', (queue, song) => {
